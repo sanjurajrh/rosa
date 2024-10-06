@@ -1,0 +1,23 @@
+aws iam create-role --assume-role-policy-document file://sts_installer_trust_policy.json --role-name cs220lws-Installer-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=installer  Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+
+aws iam create-policy --policy-document file://sts_installer_permission_policy.json --policy-name cs220lws-Installer-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=installer Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Installer-Role-Policy --role-name cs220lws-Installer-Role
+
+aws iam create-role --assume-role-policy-document file://sts_instance_controlplane_trust_policy.json --role-name cs220lws-ControlPlane-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_controlplane
+
+aws iam create-policy --policy-document file://sts_instance_controlplane_permission_policy.json --policy-name cs220lws-ControlPlane-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_controlplane
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-ControlPlane-Role-Policy --role-name cs220lws-ControlPlane-Role
+
+aws iam create-role --assume-role-policy-document file://sts_instance_worker_trust_policy.json --role-name cs220lws-Worker-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_worker
+
+aws iam create-policy --policy-document file://sts_instance_worker_permission_policy.json --policy-name cs220lws-Worker-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_worker
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Worker-Role-Policy --role-name cs220lws-Worker-Role
+
+aws iam create-role --assume-role-policy-document file://sts_support_trust_policy.json --role-name cs220lws-Support-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=support Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+
+aws iam create-policy --policy-document file://sts_support_permission_policy.json --policy-name cs220lws-Support-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=support Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Support-Role-Policy --role-name cs220lws-Support-Role

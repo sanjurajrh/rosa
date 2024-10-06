@@ -1,0 +1,321 @@
+    1  exit
+    2  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    3  unzip awscliv2.zip
+    4  sudo ./aws/install
+    5  /usr/local/bin/aws --version 
+    6  aws configure
+    7  which aws_complete
+    8  ls /usr/local/bin/
+    9  complete -C '/usr/local/bin/aws_completer' aws
+   10  aws configure 
+   11  aws configure --help
+   12  aws configure get region
+   13  aws sts get-caller-identity
+   14  wget https://raw.githubusercontent.com/RedHatTraining/CS22X-apps/main/aws/cloudformation/privatelink-with-network-firewall.yaml
+   15  ls
+   16  pip install cfn-lint 
+   17  cfn-lint -l 
+   18  cfn-lint --ignore-checks W3005 privatelink-with-network-firewall.yaml 
+   19  cfn-lint --ignore-checks W3005 -I privatelink-with-network-firewall.yaml 
+   20  cfn-lint -I privatelink-with-network-firewall.yaml
+   21  aws cloudformation create-stack --help 
+   22  aws cloudformation create-stack --stack-name ROSA-infra-lws --template-body file:file://./privatelink-with-network-firewall.yaml --parameters ParameterKey=RosaClusterName,ParameterValue=cs220lws
+   23  aws cloudformation create-stack --stack-name ROSA-infra-lws --template-body file://./privatelink-with-network-firewall.yaml --parameters ParameterKey=RosaClusterName,ParameterValue=cs220lws
+   24  aws cloudformation describe-stack --stack-name ROSA-infra-lws --output text 
+   25  aws cloudformation describe-stacks --stack-name ROSA-infra-lws --output text 
+   26  aws cloudformation describe-stacks --stack-name ROSA-infra-lws --output text --query "Stacks[0].StackStatus"
+   27  watch -d aws cloudformation describe-stacks --stack-name ROSA-infra-lws --output text --query "Stacks[0].StackStatus"
+   28  date
+   29  ls -l Downloads/
+   30  ls -lh Downloads/
+   31  wget https://mirror.openshift.com/pub/openshift-v4/clients/rosa/latest/rosa-linux.tar.gz
+   32  ls
+   33  tar xvzf rosa-linux.tar.gz 
+   34  file rosa
+   35  sudo mv rosa /usr/local/bin/
+   36  which rosa
+   37  rosa completion bash > rosa_completion
+   38  sudo cp rosa_completion /etc/bash_completion.d/
+   39  source rosa_completion 
+   40  rosa version 
+   41  rosa login --token="eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0NzQzYTkzMC03YmJiLTRkZGQtOTgzMS00ODcxNGRlZDc0YjUifQ.eyJpYXQiOjE3MjgxMzU5NzIsImp0aSI6IjVjZTU0ZjI5LWQ2OGEtNGRjZS1hZDQ0LTIyYmVmY2MzN2EyMSIsImlzcyI6Imh0dHBzOi8vc3NvLnJlZGhhdC5jb20vYXV0aC9yZWFsbXMvcmVkaGF0LWV4dGVybmFsIiwiYXVkIjoiaHR0cHM6Ly9zc28ucmVkaGF0LmNvbS9hdXRoL3JlYWxtcy9yZWRoYXQtZXh0ZXJuYWwiLCJzdWIiOiJmOjUyOGQ3NmZmLWY3MDgtNDNlZC04Y2Q1LWZlMTZmNGZlMGNlNjpsd3Nfc2FuanVyYWoiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoiY2xvdWQtc2VydmljZXMiLCJub25jZSI6IjNjNjA0MDEyLTY2YjItNDYxZS04MDAxLTFjODc2NjdiN2E3ZiIsInNpZCI6IjczNTkyZGViLTdiODYtNDQwNC05MDdiLWVmYjZjZjkxNDk4NSIsInNjb3BlIjoib3BlbmlkIGJhc2ljIGFwaS5pYW0uc2VydmljZV9hY2NvdW50cyByb2xlcyB3ZWItb3JpZ2lucyBjbGllbnRfdHlwZS5wcmVfa2MyNSBvZmZsaW5lX2FjY2VzcyJ9.Q7XYPl4FltjT0lSKSOkRDoBJJVmfyGa_Gk-8zvc4_-V5jOwuaruHjnym-bBssQ6lvXzWAl-34YLM-kEhkI4F3A"
+   42  rosa whoami 
+   43  mkdir rosa-iam-policies
+   44  cd rosa-iam-policies
+   45  ls
+   46  rosa create account-roles --help 
+   47  rosa create account-roles --mode manual --classic --version 4.15 --prefix cs220lws
+   48  ls
+   49  ls *trust*
+   50  ls *permission*
+   51  cat sts_instance_controlplane_permission_policy.json  | jq .
+   52  ls *trust*
+   53  cat sts_instance_controlplane_trust_policy.json | jq . 
+   54  history | grep account
+   55  # rosa create account-roles --mode manual --classic --version 4.15 --prefix cs220lws
+   56  ls
+   57  rm *.json 
+   58  ls
+   59  rosa create account-roles --mode manual --classic --version 4.15 --prefix cs220lws
+   60  aws iam create-role --assume-role-policy-document file://sts_installer_trust_policy.json --role-name cs220lws-Installer-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=installer  Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+   61  aws iam create-policy --policy-document file://sts_installer_permission_policy.json --policy-name cs220lws-Installer-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=installer Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+   62  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Installer-Role-Policy --role-name cs220lws-Installer-Role
+   63  aws iam create-role --assume-role-policy-document file://sts_instance_controlplane_trust_policy.json --role-name cs220lws-ControlPlane-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_controlplane
+   64  aws iam create-policy --policy-document file://sts_instance_controlplane_permission_policy.json --policy-name cs220lws-ControlPlane-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_controlplane
+   65  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-ControlPlane-Role-Policy --role-name cs220lws-ControlPlane-Role
+   66  aws iam create-role --assume-role-policy-document file://sts_instance_worker_trust_policy.json --role-name cs220lws-Worker-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_worker
+   67  aws iam create-policy --policy-document file://sts_instance_worker_permission_policy.json --policy-name cs220lws-Worker-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15 Key=rosa_role_type,Value=instance_worker
+   68  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Worker-Role-Policy --role-name cs220lws-Worker-Role
+   69  aws iam create-role --assume-role-policy-document file://sts_support_trust_policy.json --role-name cs220lws-Support-Role --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=support Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+   70  aws iam create-policy --policy-document file://sts_support_permission_policy.json --policy-name cs220lws-Support-Role-Policy --tags Key=red-hat-managed,Value=true Key=rosa_role_type,Value=support Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.15
+   71  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-Support-Role-Policy --role-name cs220lws-Support-Role
+   72  rosa list account-roles 
+   73  cd ..
+   74  ls
+   75  mkdir rosa-oidc-config 
+   76  cd rosa-oidc-config
+   77  ls
+   78  rosa create oidc-config --mode manual --managed false --prefix cs220lws
+   79  rosa create oidc-config --mode manual --managed=false --prefix cs220lws
+   80  ls
+   81  rm *.json 
+   82  rosa create oidc-config --mode manual --managed=false --prefix cs220lws
+   83  ls
+   84  c d..
+   85  cd ..
+   86  ls
+   87  rm -rf rosa-oidc-config
+   88  ls
+   89  mkdir rosa-oidc-config
+   90  cd rosa-oidc-config
+   91  ls
+   92  rosa create oidc-config --mode manual --managed=false --prefix cs220lws
+   93  URL_BUCKET="https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com"
+   94  ls
+   95  aws s3api create-bucket --bucket cs220lws-oidc-i8e4 --create-bucket-configuration LocationConstraint=ap-southeast-2 --region ap-southeast-2
+   96  aws s3api put-bucket-tagging --bucket cs220lws-oidc-i8e4 --tagging 'TagSet=[{Key=red-hat-managed,Value=true}]'
+   97  aws s3api put-public-access-block --bucket cs220lws-oidc-i8e4 --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=false,RestrictPublicBuckets=false
+   98  aws s3api put-bucket-policy --bucket cs220lws-oidc-i8e4 --policy file://readOnlyPolicy-cs220lws-oidc-i8e4.json
+   99  ls
+  100  rm readOnlyPolicy-cs220lws-oidc-i8e4.json
+  101  ls
+  102  aws s3api put-object --body ./discovery-document-cs220lws-oidc-i8e4.json --bucket cs220lws-oidc-i8e4 --key .well-known/openid-configuration --tagging 'red-hat-managed=true'
+  103  rm discovery-document-cs220lws-oidc-i8e4.json
+  104  ls
+  105  aws s3api put-object --body ./jwks-cs220lws-oidc-i8e4.json --bucket cs220lws-oidc-i8e4 --key keys.json --tagging 'red-hat-managed=true'
+  106  rm jwks-cs220lws-oidc-i8e4.json
+  107  ls
+  108  aws secretsmanager create-secret --description "Secret for cs220lws-oidc-i8e4" --name rosa-private-key-cs220lws-oidc-i8e4 --region ap-southeast-2 --secret-string file://rosa-private-key-cs220lws-oidc-i8e4.key --tags Key=red-hat-managed,Value=true
+  109  rm rosa-private-key-cs220lws-oidc-i8e4.key
+  110  ls
+  111  ARN_SECRET="arn:aws:secretsmanager:ap-southeast-2:210940124124:secret:rosa-private-key-cs220lws-oidc-i8e4-rH2oIg"
+  112  echo $URL_BUCKET
+  113  echo $ARN_SECRET
+  114  rosa list account-roles 
+  115  ARN_INSTALLER="arn:aws:iam::210940124124:role/cs220lws-Installer-Role"
+  116  echo $ARN_INSTALLER
+  117  rosa register oidc-config --mode manual --issuer-url $URL_BUCKET --secret-arn $ARN_SECRET --installer-role-arn $ARN_INSTALLER 
+  118  # aws iam create-open-id-connect-provider --client-id-list openshift ts.amazonaws.com --tags Key=red-hat-managed,Value=true --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280 --url https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+  119  rosa list oidc-config 
+  120  OIDC_CONFIG_ID="2e7gk7ej17drc4n91u2pupiau17tqgf7"
+  121  aws iam create-open-id-connect-provider --client-id-list openshift ts.amazonaws.com --tags Key=red-hat-managed,Value=true --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280 --url https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+  122  rosa list oidc-providers 
+  123  aws iam create-open-id-connect-provider --client-id-list openshift sts.amazonaws.com --tags Key=red-hat-managed,Value=true --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280 --url https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+  124  aws iam delete-open-id-connect-provider arn:aws:iam::210940124124:oidc-provider/cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+  125  aws iam delete-open-id-connect-provider "arn:aws:iam::210940124124:oidc-provider/cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com"
+  126  aws iam delete-open-id-connect-provider --open-id-connect-provider-arn "arn:aws:iam::210940124124:oidc-provider/cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com"
+  127  rosa list oidc-providers 
+  128  aws iam create-open-id-connect-provider --client-id-list openshift sts.amazonaws.com --tags Key=red-hat-managed,Value=true --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280 --url https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+  129  rosa list oidc-providers 
+  130  cd ..
+  131  mkdir rosa-operator-roles 
+  132  cd rosa-operator-roles
+  133  ls
+  134  echo $OIDC_CONFIG_ID
+  135  echo $ARN_INSTALLER
+  136  rosa create operator-roles --mode manual --prefix cs220lws --oidc-config-id $OIDC_CONFIG_ID --installer-role-arn $ARN_INSTALLER
+  137  aws iam create-policy --policy-document file://openshift_machine_api_aws_cloud_credentials_policy.json --policy-name cs220lws-openshift-machine-api-aws-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=aws-cloud-credentials Key=operator_namespace,Value=openshift-machine-api
+  138  aws iam create-role --assume-role-policy-document file://operator_machine_api_aws_cloud_credentials_policy.json --role-name cs220lws-openshift-machine-api-aws-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=aws-cloud-credentials Key=operator_namespace,Value=openshift-machine-api
+  139  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-machine-api-aws-cloud-credentials --role-name cs220lws-openshift-machine-api-aws-cloud-credentials
+  140  aws iam create-policy --policy-document file://openshift_cloud_credential_operator_cloud_credential_operator_iam_ro_creds_policy.json --policy-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credential-operator-iam-ro-creds Key=operator_namespace,Value=openshift-cloud-credential-operator
+  141  aws iam create-role --assume-role-policy-document file://operator_cloud_credential_operator_cloud_credential_operator_iam_ro_creds_policy.json --role-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credential-operator-iam-ro-creds Key=operator_namespace,Value=openshift-cloud-credential-operator
+  142  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cloud-credential-operator-cloud-credential-op --role-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op
+  143  aws iam create-policy --policy-document file://openshift_image_registry_installer_cloud_credentials_policy.json --policy-name cs220lws-openshift-image-registry-installer-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=installer-cloud-credentials Key=operator_namespace,Value=openshift-image-registry
+  144  aws iam create-role --assume-role-policy-document file://operator_image_registry_installer_cloud_credentials_policy.json --role-name cs220lws-openshift-image-registry-installer-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=installer-cloud-credentials Key=operator_namespace,Value=openshift-image-registry
+  145  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-image-registry-installer-cloud-credentials --role-name cs220lws-openshift-image-registry-installer-cloud-credentials
+  146  aws iam create-policy --policy-document file://openshift_ingress_operator_cloud_credentials_policy.json --policy-name cs220lws-openshift-ingress-operator-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-ingress-operator
+  147  aws iam create-role --assume-role-policy-document file://operator_ingress_operator_cloud_credentials_policy.json --role-name cs220lws-openshift-ingress-operator-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-ingress-operator
+  148  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-ingress-operator-cloud-credentials --role-name cs220lws-openshift-ingress-operator-cloud-credentials
+  149  aws iam create-policy --policy-document file://openshift_cluster_csi_drivers_ebs_cloud_credentials_policy.json --policy-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=ebs-cloud-credentials Key=operator_namespace,Value=openshift-cluster-csi-drivers
+  150  aws iam create-role --assume-role-policy-document file://operator_cluster_csi_drivers_ebs_cloud_credentials_policy.json --role-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=ebs-cloud-credentials Key=operator_namespace,Value=openshift-cluster-csi-drivers
+  151  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --role-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials
+  152  aws iam create-policy --policy-document file://openshift_cloud_network_config_controller_cloud_credentials_policy.json --policy-name cs220lws-openshift-cloud-network-config-controller-cloud-credent --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-cloud-network-config-controller
+  153  aws iam create-role --assume-role-policy-document file://operator_cloud_network_config_controller_cloud_credentials_policy.json --role-name cs220lws-openshift-cloud-network-config-controller-cloud-credent --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-cloud-network-config-controller
+  154  aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cloud-network-config-controller-cloud-credent --role-name cs220lws-openshift-cloud-network-config-controller-cloud-credent
+  155  history 
+  156  rosa list operator-roles 
+  157  rosa list operator-roles --prefix cs220lws
+  158  rosa list operator-roles --prefix cs220lws -o json | jq '[].Namespace'
+  159  rosa list operator-roles --prefix cs220lws -o json | jq '.[].Namespace'
+  160  aws ec2 describe-subnets --filters "Name=tag:Name,Values=cs220lws-private-subnet" --output text 
+  161  aws ec2 describe-subnets --filters "Name=tag:Name,Values=cs220lws-private-subnet" --output text --query "Subnets[0].SubnetId"
+  162  SUBNET=subnet-0e9ab412dc0120842
+  163  echo $SUBNET
+  164  aws ec2 describe-vpcs --filters "Name=tag:Name,Values=cs220lws-private-vpc" --output text 
+  165  aws ec2 describe-vpcs --filters "Name=tag:Name,Values=cs220lws-private-vpc" --output text --query "Vpcs.CidrBlock"
+  166  aws ec2 describe-vpcs --filters "Name=tag:Name,Values=cs220lws-private-vpc" --output text --query "Vpcs[0].CidrBlock"
+  167  CIDR="10.1.0.0/16"
+  168  echo $CIDR
+  169  rosa list oidc-config | grep lws 
+  170  echo $OIDC_CONFIG_ID
+  171  rosa list account-roles 
+  172  ARN_CONTROL="arn:aws:iam::210940124124:role/cs220lws-ControlPlane-Role"
+  173  ARN_INSTALLER="arn:aws:iam::210940124124:role/cs220lws-Installer-Role"
+  174  ARN_SUPPORT="arn:aws:iam::210940124124:role/cs220lws-Support-Role"
+  175  ARN_COMPUTE="arn:aws:iam::210940124124:role/cs220lws-Worker-Role"
+  176  rosa list versions 
+  177  rosa list versions  | head
+  178  rosa list versions  | grep yes
+  179  rosa create cluster --sts --private-link --cluster-name cs220lws --operator-roles-prefix cs220lws --version 4.15.33 --oidc-config-id $OIDC_CONFIG_ID --subnet-ids $SUBNET --machine-cidr $CIDR --role-arn $ARN_INSTALLER --support-role-arn $ARN_SUPPORT --controlplane-iam-role $ARN_CONTROL --worker-iam-role $ARN_COMPUTE --tags "redhattraining:rosa-cluster-id cs220lws,redhattraining:course-sku CS220" --dry-run
+  180  rosa create cluster --sts --private-link --cluster-name cs220lws --operator-roles-prefix cs220lws --version 4.15.33 --oidc-config-id $OIDC_CONFIG_ID --subnet-ids $SUBNET --machine-cidr $CIDR --role-arn $ARN_INSTALLER --support-role-arn $ARN_SUPPORT --controlplane-iam-role $ARN_CONTROL --worker-iam-role $ARN_COMPUTE --tags "redhattraining:rosa-cluster-id cs220lws,redhattraining:course-sku CS220" 
+  181  rosa describe cluster -c cs220lws
+  182  rosa logs install -c cs220lws --watch
+  183  rosa list clusters
+  184  history | grep describe-stacks
+  185  rosa whoami 
+  186  rosa list clusters 
+  187  rosa logs install -c cs220lws 
+  188  rosa describe cluster -c cs220lws
+  189  aws resourcegroupstaggingapi get-resources --output text  --tag-filters "Key=redhattraining:rosa-cluster-id,Values=cs220lws"
+  190  aws resourcegroupstaggingapi get-resources --output text  --tag-filters "Key=redhattraining:rosa-cluster-id,Values=cs220lws" "Key=CSIVolumeName"
+  191  rosa list clusters 
+  192  rosa describe cluster -c cs220lws
+  193  nc -v console-openshift-console.apps.cs220lws.nw83.p1.openshiftapps.com 443
+  194  rosa whoami 
+  195  rosa list clusters
+  196  rosa describe cluster -c cs220lws
+  197  nc -v api.cs220lws.nw83.p1.openshiftapps.com 6443
+  198  cd
+  199  wget https://raw.githubusercontent.com/RedHatTraining/CS22X-apps/main/aws/cloudformation/customer-vpc.yaml
+  200  ls
+  201  cfn-lint customer-vpc.yaml 
+  202  cfn-lint --ignore-checks=W3005 customer-vpc.yaml 
+  203  aws cloudformation create-stack --stack-name customer-vpc-lws --template-body file://./customer-vpc.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws
+  204  aws cloudformation describe-stacks --stack-name customer-vpc-lws --output text 
+  205  aws cloudformation describe-stacks --stack-name customer-vpc-lws --output text --query "Stacks[0].StackStatus"
+  206  watch -d aws cloudformation describe-stacks --stack-name customer-vpc-lws --output text --query "Stacks[0].StackStatus"
+  207  aws cloudformation describe-stacks --stack-name customer-vpc-lws --output text --query "Stacks[0].StackStatus"
+  208  aws route53 list-hosted-zones --hosted-zone-type PrivateHostedZone
+  209  R53_HZ="/hostedzone/Z00219652U9SR9GSBBO35"
+  210  echo $R53_HZ
+  211  aws configure get region
+  212  AWS_REG="ap-southeast-2"
+  213  echo $AWS_REG
+  214  #vpc-0881eadf21f09ea0e
+  215  aws ec describe-vpcs --output text --query "Vpcs[0].VpcId" --filters "Name=tag:Name,Values=cs220lws-customer-vpc"
+  216  aws ec2 describe-vpcs --output text --query "Vpcs[0].VpcId" --filters "Name=tag:Name,Values=cs220lws-customer-vpc"
+  217  CUST_VPC="vpc-0881eadf21f09ea0e"
+  218  echo $CUST_VPC
+  219  aws route53 associate-vpc-with-hosted-zone --hosted-zone-id $R53_HZ --vpc VPCRegion=$AWS_REG,VPCId=$CUST_VPC
+  220  aws route53 get-change --id /change/C04365242LPUKH2TH4GTP
+  221  aws ec2 describe-instance-connect-endpoints --output yaml --filters "Name=tag:Name,Values=cs220lws-customer-connect-endpoint"
+  222  aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=cs220lws-customer-bastion"
+  223  aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=cs220lws-customer-bastion" --query "Reservations[].Instances[].InstanceId"
+  224  EC2_INST="i-08c88abb7d1f6d552"
+  225  echo $EC2_INST
+  226  aws ec2-instance-connect ssh --instance-id $EC2_INST
+  227  aws ec2-instance-connect open-tunnel --instance-id $EC2_INST --local-port 3389 --remote-port 3389
+  228  wget https://github.com/RedHatTraining/CS22X-apps/raw/main/certificates.zip
+  229  ls
+  230  unzip certificates.zip 
+  231  ls
+  232  ls certificates
+  233  aws acm import-certificate --certificate fileb://certificates/server.crt --private-key fileb://certificates/server.key --certificate-chain fileb://certificates/ca.crt --output text 
+  234  aws acm import-certificate --certificate fileb://certificates/server.crt --private-key fileb://certificates/server.key --certificate-chain fileb://certificates/ca.crt --output text --query CertificateArn
+  235  ACM_SECRET_CERT="arn:aws:acm:ap-southeast-2:210940124124:certificate/c9ad1bac-c5f1-4fb1-9942-423aa87c9ed6"
+  236  echo $ACM_SECRET_CERT
+  237  aws acm import-certificate --certificate fileb://certificates/vpn-client.crt --private-key fileb://certificates/vpn-client.key --certificate-chain fileb://certificates/ca.crt --output text --query CertificateArn
+  238  ACM_CLIENT_CERT="arn:aws:acm:ap-southeast-2:210940124124:certificate/46bc7755-9342-4fb7-9a5a-206894c511e2"
+  239  echo $ACM_CLIENT_CERT 
+  240  wget https://raw.githubusercontent.com/RedHatTraining/CS22X-apps/main/aws/cloudformation/vpn.yaml
+  241  ls
+  242  cfn-lint vpn.yaml 
+  243  cfn-lint --ignore-checks=W3005 vpn.yaml
+  244  less vpn.yaml 
+  245  aws cloudformation create-stack --stack-name vpn-lws --template-body file://./vpn.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws "ParameterKey=pVpnServerCertARN,ParameterValue=$ACM_SERVER_CERT" "ParameterKey=pVpnClientCertARN,ParameterValue=$ACM_CLIENT_CERT" 
+  246  # aws cloudformation create-stack --stack-name vpn-lws --template-body file://./vpn.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws "ParameterKey=pVpnServerCertARN,ParameterValue=$ACM_SERVER_CERT" "ParameterKey=pVpnClientCertARN,ParameterValue=$ACM_CLIENT_CERT" 
+  247  aws acm list-certificates 
+  248  aws acm list-certificates --output text 
+  249  aws acm delete-certificate --certificate-arn "arn:aws:acm:ap-southeast-2:210940124124:certificate/a0e8cbf0-ca2d-4241-b008-8f6ddef4b2b6"
+  250  aws acm list-certificates --output text 
+  251  aws cloudformation create-stack --stack-name vpn-lws --template-body file://./vpn.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws "ParameterKey=pVpnServerCertARN,ParameterValue=$ACM_SERVER_CERT" "ParameterKey=pVpnClientCertARN,ParameterValue=$ACM_CLIENT_CERT" 
+  252  echo $ACM_SECRET_CERT 
+  253  ls
+  254  echo $ACM_CLIENT_CERT
+  255  aws cloudformation list-stack
+  256  aws cloudformation list-stacks
+  257  aws cloudformation create-stack --stack-name vpn-lws --template-body file://./vpn.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws "ParameterKey=pVpnServerCertARN,ParameterValue=$ACM_SERVER_CERT" "ParameterKey=pVpnClientCertARN,ParameterValue=$ACM_CLIENT_CERT" 
+  258  echo $ACM_SERVER_CERT
+  259  history | grep ACM_SERVER_CERT
+  260  history | grep SERVER
+  261  ACM_SERVER_CERT="arn:aws:acm:ap-southeast-2:210940124124:certificate/c9ad1bac-c5f1-4fb1-9942-423aa87c9ed6"
+  262  echo $ACM_SERVER_CERT
+  263  # ACM_SECRET_CERT="arn:aws:acm:ap-southeast-2:210940124124:certificate/c9ad1bac-c5f1-4fb1-9942-423aa87c9ed6"
+  264  unset ACM_SECRET_CERT
+  265  aws cloudformation create-stack --stack-name vpn-lws --template-body file://./vpn.yaml --parameters ParameterKey=RosaStackName,ParameterValue=ROSA-infra-lws "ParameterKey=pVpnServerCertARN,ParameterValue=$ACM_SERVER_CERT" "ParameterKey=pVpnClientCertARN,ParameterValue=$ACM_CLIENT_CERT" 
+  266  aws cloudformation describe-stacks --stack-name vpn-lws --output text 
+  267  aws cloudformation describe-stacks --stack-name vpn-lws --output text --query "Stacks[0].StackStatus"
+  268  aws resourcegroupstaggingapi get-resources --output text --tag-filters "Key=redhattraining:course-sku,Values=CS220-VPN"
+  269  aws ec2 describe-client-vpn-endpoints --filters "Name=tag:Name,Values=cs220lws-customer-client-vpn-endpoint" --output text 
+  270  aws ec2 describe-client-vpn-endpoints --filters "Name=tag:Name,Values=cs220lws-customer-client-vpn-endpoint" --output text --query "ClientVpnEndpoints[0].ClientVpnEndpointId"
+  271  VPN_CLIENT_ID="cvpn-endpoint-031114add311e4f3c"
+  272  echo $VPN_CLIENT_ID
+  273  aws ec2 export-client-vpn-client-configuration --output text --client-vpn-endpoint-id $VPN_CLIENT_ID 
+  274  aws ec2 export-client-vpn-client-configuration --output text --client-vpn-endpoint-id $VPN_CLIENT_ID  > vpn-configuration.ovpn 
+  275  less vpn-configuration.ovpn 
+  276  vim vpn-configuration.ovpn
+  277  sudo yum install openvpm 
+  278  sudo yum install openvpn
+  279  sudo openvpn --config vpn-configuration.ovpn 
+  280  history 
+  281  history  > hist.txt
+    1  exit
+    2  date
+    3  cd
+    4  sudo -i 
+    5  ip r 
+    6  rosa list clusters 
+    7  rosa describe cluster -c cs220lws | grep -i API 
+    8  nc -v api.cs220lws.nw83.p1.openshiftapps.com 6443 
+    9  oc login -u cluster-admin -p Redhattraining123 https://api.cs220lws.nw83.p1.openshiftapps.com:6443
+   10  oc whoami 
+   11  history >> hist.txt 
+    1  exit
+    2  vim README.md
+    3  history >> hist.txt 
+    1  exit
+    2  sudo openvpn --config vpn-configuration.ovpn 
+    3  history >> hist.txt 
+    1  exit
+    2  ip r 
+    3  cat /etc/resolv.conf 
+    4  rosa whoami 
+    5  ross list clusters
+    6  rosa list clusters 
+    7  rosa describe cluster -c cs220lws | grep API 
+    8  nc -v api.cs220lws.nw83.p1.openshiftapps.com 6443 
+    9  oc whoami 
+   10  oc get nodes 
+   11  wget https://raw.githubusercontent.com/RedHatTraining/CS22X-apps/main/resources/rds/quotes-app.yaml
+   12  ls quotes-app.yaml 
+   13  less quotes-app.yaml 
+   14  aws rds describe-db-instances --query "DBInstances[0].Endpoint.Address" --db-instance-identifier cs220lws-customer-db 
+   15  oc new-project quotes-app
+   16  oc apply -f quotes-app.yaml 
+   17  oc get pods 
+   18  watch -d oc get pods 
+   19  oc get pods 
+   20  oc logs famous-quotes-57d76669bb-x2qgw 
+   21  oc get route 
+   22  oc delete project quotes-app 
+   23  history >> hist.txt 

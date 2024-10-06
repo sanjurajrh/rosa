@@ -1,0 +1,85 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            df:40:b0:39:42:9e:4b:c8:06:33:f9:a3:92:7a:1f:0e
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=Red Hat Training
+        Validity
+            Not Before: Oct 24 05:36:02 2023 GMT
+            Not After : Sep 30 05:36:02 2123 GMT
+        Subject: CN=vpn-client
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:99:c0:49:4c:d0:14:ab:e2:80:4c:a5:a5:1f:38:
+                    da:ee:74:e4:ba:a6:7b:eb:de:73:d8:fb:94:a7:ed:
+                    3a:89:6f:26:73:67:30:23:42:68:e3:f0:3b:50:ca:
+                    ec:c8:9f:dd:4a:4f:bc:38:5f:1b:58:72:a0:f6:0c:
+                    76:5e:65:f3:9d:6a:17:50:1b:87:d2:f1:64:4b:61:
+                    14:2c:c8:20:cc:01:d6:da:0e:5e:3d:c6:9c:54:cb:
+                    44:02:8f:94:0b:b7:f4:c0:1d:36:77:12:6b:aa:f6:
+                    cc:67:be:31:3b:e0:39:ba:9c:8d:62:16:f4:c6:45:
+                    a4:17:8e:88:8b:ff:02:b8:91:bb:5d:01:42:8f:f7:
+                    02:30:ed:f0:d2:d6:b4:64:65:56:d6:78:e1:58:94:
+                    a9:a0:53:e5:9c:6e:e5:56:24:7e:85:b5:14:07:c2:
+                    56:16:c5:90:e9:59:27:92:93:9f:d7:02:b8:85:9b:
+                    e6:e0:95:d4:85:1c:60:66:40:7c:89:1b:94:08:60:
+                    0a:b8:3f:07:06:a9:9d:10:fe:6b:15:f8:83:ee:2f:
+                    55:b1:e0:63:af:57:0e:a0:a0:b5:2a:63:d0:2b:f6:
+                    79:ea:7d:41:08:6f:65:6f:d4:69:72:55:a4:a6:92:
+                    5f:4c:ff:38:89:15:bc:79:5c:c9:26:70:b8:b5:4f:
+                    db:11
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                A0:DB:8D:B0:53:75:E0:21:72:26:E4:2E:F3:11:E9:7C:F3:9E:BB:C5
+            X509v3 Authority Key Identifier: 
+                keyid:33:36:1F:93:06:AF:55:7F:FF:5E:EE:A3:D7:01:9C:14:ED:EF:CD:21
+                DirName:/CN=Red Hat Training
+                serial:6E:1D:62:2B:1D:BA:68:F6:C3:A9:E5:26:4C:09:AC:29:58:57:9F:61
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Key Usage: 
+                Digital Signature
+    Signature Algorithm: sha256WithRSAEncryption
+    Signature Value:
+        6c:e0:9c:53:16:c2:3b:ad:82:f5:d9:e7:fb:9a:bd:f8:50:9a:
+        74:ef:95:dc:dd:2b:b6:96:09:a7:80:f9:f0:44:db:7f:f5:71:
+        dd:49:40:ef:00:7f:98:cc:4c:35:56:fd:d0:ad:6e:c8:7a:e2:
+        cd:9f:e3:90:95:31:1c:af:a5:2c:eb:c3:9c:f2:61:69:52:c6:
+        7e:e5:32:9d:4a:51:3d:15:76:1d:68:15:20:ad:4e:70:b7:4c:
+        96:c5:55:ce:54:86:a0:3e:fa:51:12:a5:40:4e:6f:f0:f9:5a:
+        23:71:42:57:77:59:39:cb:5a:56:33:e8:d9:ce:c5:e4:f4:f0:
+        b8:b4:7c:6a:d2:10:d2:f9:a9:a4:f4:f5:cb:86:1e:c3:9a:ef:
+        5d:38:c4:b9:38:87:97:48:72:30:00:cf:f3:17:97:81:3e:03:
+        ba:d3:97:1e:0b:b9:6a:a8:55:88:cd:41:28:8f:2d:68:ff:18:
+        b4:dc:2a:8c:85:e2:43:8c:ab:14:94:4b:85:50:79:e1:66:7b:
+        fe:05:8d:3f:87:b6:31:95:8e:da:07:7e:73:67:98:84:e8:14:
+        94:21:15:a4:55:05:29:db:fe:bb:f2:af:83:89:2d:8a:37:7e:
+        3c:33:4f:eb:63:12:ae:e7:56:5f:d7:ec:a3:a4:2b:e1:61:ed:
+        cf:0c:3d:00
+-----BEGIN CERTIFICATE-----
+MIIDZTCCAk2gAwIBAgIRAN9AsDlCnkvIBjP5o5J6Hw4wDQYJKoZIhvcNAQELBQAw
+GzEZMBcGA1UEAwwQUmVkIEhhdCBUcmFpbmluZzAgFw0yMzEwMjQwNTM2MDJaGA8y
+MTIzMDkzMDA1MzYwMlowFTETMBEGA1UEAwwKdnBuLWNsaWVudDCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAJnASUzQFKvigEylpR842u505Lqme+vec9j7
+lKftOolvJnNnMCNCaOPwO1DK7Mif3UpPvDhfG1hyoPYMdl5l851qF1Abh9LxZEth
+FCzIIMwB1toOXj3GnFTLRAKPlAu39MAdNncSa6r2zGe+MTvgObqcjWIW9MZFpBeO
+iIv/AriRu10BQo/3AjDt8NLWtGRlVtZ44ViUqaBT5Zxu5VYkfoW1FAfCVhbFkOlZ
+J5KTn9cCuIWb5uCV1IUcYGZAfIkblAhgCrg/BwapnRD+axX4g+4vVbHgY69XDqCg
+tSpj0Cv2eep9QQhvZW/UaXJVpKaSX0z/OIkVvHlcySZwuLVP2xECAwEAAaOBpzCB
+pDAJBgNVHRMEAjAAMB0GA1UdDgQWBBSg242wU3XgIXIm5C7zEel88567xTBWBgNV
+HSMETzBNgBQzNh+TBq9Vf/9e7qPXAZwU7e/NIaEfpB0wGzEZMBcGA1UEAwwQUmVk
+IEhhdCBUcmFpbmluZ4IUbh1iKx26aPbDqeUmTAmsKVhXn2EwEwYDVR0lBAwwCgYI
+KwYBBQUHAwIwCwYDVR0PBAQDAgeAMA0GCSqGSIb3DQEBCwUAA4IBAQBs4JxTFsI7
+rYL12ef7mr34UJp075Xc3Su2lgmngPnwRNt/9XHdSUDvAH+YzEw1Vv3QrW7IeuLN
+n+OQlTEcr6Us68Oc8mFpUsZ+5TKdSlE9FXYdaBUgrU5wt0yWxVXOVIagPvpREqVA
+Tm/w+VojcUJXd1k5y1pWM+jZzsXk9PC4tHxq0hDS+amk9PXLhh7Dmu9dOMS5OIeX
+SHIwAM/zF5eBPgO605ceC7lqqFWIzUEojy1o/xi03CqMheJDjKsUlEuFUHnhZnv+
+BY0/h7YxlY7aB35zZ5iE6BSUIRWkVQUp2/678q+DiS2KN348M0/rYxKu51Zf1+yj
+pCvhYe3PDD0A
+-----END CERTIFICATE-----

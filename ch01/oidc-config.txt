@@ -1,0 +1,26 @@
+aws s3api create-bucket --bucket cs220lws-oidc-i8e4 --create-bucket-configuration LocationConstraint=ap-southeast-2 --region ap-southeast-2
+
+aws s3api put-bucket-tagging --bucket cs220lws-oidc-i8e4 --tagging 'TagSet=[{Key=red-hat-managed,Value=true}]'
+
+aws s3api put-public-access-block --bucket cs220lws-oidc-i8e4 --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=false,RestrictPublicBuckets=false
+
+aws s3api put-bucket-policy --bucket cs220lws-oidc-i8e4 --policy file://readOnlyPolicy-cs220lws-oidc-i8e4.json
+
+rm readOnlyPolicy-cs220lws-oidc-i8e4.json
+
+aws s3api put-object --body ./discovery-document-cs220lws-oidc-i8e4.json --bucket cs220lws-oidc-i8e4 --key .well-known/openid-configuration --tagging 'red-hat-managed=true'
+
+rm discovery-document-cs220lws-oidc-i8e4.json
+
+aws s3api put-object --body ./jwks-cs220lws-oidc-i8e4.json --bucket cs220lws-oidc-i8e4 --key keys.json --tagging 'red-hat-managed=true'
+
+rm jwks-cs220lws-oidc-i8e4.json
+
+aws secretsmanager create-secret --description "Secret for cs220lws-oidc-i8e4" --name rosa-private-key-cs220lws-oidc-i8e4 --region ap-southeast-2 --secret-string file://rosa-private-key-cs220lws-oidc-i8e4.key --tags Key=red-hat-managed,Value=true
+
+rm rosa-private-key-cs220lws-oidc-i8e4.key
+
+rosa register oidc-config
+
+aws iam create-open-id-connect-provider --client-id-list openshift sts.amazonaws.com --tags Key=red-hat-managed,Value=true --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280 --url https://cs220lws-oidc-i8e4.s3.ap-southeast-2.amazonaws.com
+

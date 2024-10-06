@@ -1,0 +1,35 @@
+aws iam create-policy --policy-document file://openshift_machine_api_aws_cloud_credentials_policy.json --policy-name cs220lws-openshift-machine-api-aws-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=aws-cloud-credentials Key=operator_namespace,Value=openshift-machine-api
+
+aws iam create-role --assume-role-policy-document file://operator_machine_api_aws_cloud_credentials_policy.json --role-name cs220lws-openshift-machine-api-aws-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=aws-cloud-credentials Key=operator_namespace,Value=openshift-machine-api
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-machine-api-aws-cloud-credentials --role-name cs220lws-openshift-machine-api-aws-cloud-credentials
+
+aws iam create-policy --policy-document file://openshift_cloud_credential_operator_cloud_credential_operator_iam_ro_creds_policy.json --policy-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credential-operator-iam-ro-creds Key=operator_namespace,Value=openshift-cloud-credential-operator
+
+aws iam create-role --assume-role-policy-document file://operator_cloud_credential_operator_cloud_credential_operator_iam_ro_creds_policy.json --role-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credential-operator-iam-ro-creds Key=operator_namespace,Value=openshift-cloud-credential-operator
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cloud-credential-operator-cloud-credential-op --role-name cs220lws-openshift-cloud-credential-operator-cloud-credential-op
+
+aws iam create-policy --policy-document file://openshift_image_registry_installer_cloud_credentials_policy.json --policy-name cs220lws-openshift-image-registry-installer-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=installer-cloud-credentials Key=operator_namespace,Value=openshift-image-registry
+
+aws iam create-role --assume-role-policy-document file://operator_image_registry_installer_cloud_credentials_policy.json --role-name cs220lws-openshift-image-registry-installer-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=installer-cloud-credentials Key=operator_namespace,Value=openshift-image-registry
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-image-registry-installer-cloud-credentials --role-name cs220lws-openshift-image-registry-installer-cloud-credentials
+
+aws iam create-policy --policy-document file://openshift_ingress_operator_cloud_credentials_policy.json --policy-name cs220lws-openshift-ingress-operator-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-ingress-operator
+
+aws iam create-role --assume-role-policy-document file://operator_ingress_operator_cloud_credentials_policy.json --role-name cs220lws-openshift-ingress-operator-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-ingress-operator
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-ingress-operator-cloud-credentials --role-name cs220lws-openshift-ingress-operator-cloud-credentials
+
+aws iam create-policy --policy-document file://openshift_cluster_csi_drivers_ebs_cloud_credentials_policy.json --policy-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=ebs-cloud-credentials Key=operator_namespace,Value=openshift-cluster-csi-drivers
+
+aws iam create-role --assume-role-policy-document file://operator_cluster_csi_drivers_ebs_cloud_credentials_policy.json --role-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --tags Key=red-hat-managed,Value=true Key=operator_name,Value=ebs-cloud-credentials Key=operator_namespace,Value=openshift-cluster-csi-drivers
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials --role-name cs220lws-openshift-cluster-csi-drivers-ebs-cloud-credentials
+
+aws iam create-policy --policy-document file://openshift_cloud_network_config_controller_cloud_credentials_policy.json --policy-name cs220lws-openshift-cloud-network-config-controller-cloud-credent --tags Key=red-hat-managed,Value=true Key=rosa_role_prefix,Value=cs220lws Key=rosa_openshift_version,Value=4.16 Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-cloud-network-config-controller
+
+aws iam create-role --assume-role-policy-document file://operator_cloud_network_config_controller_cloud_credentials_policy.json --role-name cs220lws-openshift-cloud-network-config-controller-cloud-credent --tags Key=red-hat-managed,Value=true Key=operator_name,Value=cloud-credentials Key=operator_namespace,Value=openshift-cloud-network-config-controller
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::210940124124:policy/cs220lws-openshift-cloud-network-config-controller-cloud-credent --role-name cs220lws-openshift-cloud-network-config-controller-cloud-credent
